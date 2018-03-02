@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<project name="nant" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
+	<property name="msbuild.configuration" value="Release" readonly="false" overwrite="false" />
+	<property name="msbuild.parameters" value="" readonly="false" overwrite="false" />
+	<property name="msbuild.target" value="anycpu" readonly="false" overwrite="false" />
+	<property name="msbuild.extraargs" value="" readonly="false" overwrite="false" />
+	<property name="msbuild.rebuild" value="" readonly="false" overwrite="false" />
+	<property name="msbuild.framework" value="v4.7" readonly="false" overwrite="true" />
+	<property name="msbuild.tools" value="14.0" readonly="false" overwrite="true" />
+	<property name="msbuild.parallel" value="/m" />
+
+	<!-- <property name="msbuild" value="C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild.exe" /> -->
+	<property name="msbuild" value="C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\msbuild.exe" />
+	
+	<target name="Build.Debug.NoInstall" description="Compiles using the AutomatedDebug Configuration" depends="">
+		<property name="msbuild.configuration" value="Debug" />
+		
+		<property name="solution.dir" value=".\Source" /><!--\Calculator -->
+		<property name="solution.file" value="Calculator.sln" />
+		<call target="MsBuild" />
+		
+		<property name="solution.dir" value="." /><!-- \Source\Misc -->
+		<property name="solution.file" value="Misc.sln" />
+		<call target="MsBuild" />
+    </target>
+
+	<target name="MsBuild" description="Called by external build scripts">
+		<exec program="${msbuild}" basedir="${solution.dir}" workingdir="${solution.dir}">
+            <arg value="${solution.file}" />
+			<arg value="/p:TargetFrameworkVersion=${msbuild.framework};Configuration=${msbuild.configuration}" />        
+			<arg value="/v:minimal" />
+			<arg value="${msbuild.parallel}" />
+			<arg value="/nologo" />
+			<arg value="/t:Rebuild" />
+			<!--<arg value="/v:diag" />-->
+			<arg if="${string::get-length(property::get-value('msbuild.parameters')) &gt; 0}" value="/p:DefineConstants=${mstring::quote(property::get-value('msbuild.parameters'))}" />
+			<arg if="${string::get-length(property::get-value('msbuild.extraargs')) &gt; 0}" value="${mstring::quote(property::get-value('msbuild.extraargs'))}" />
+			<arg value="${msbuild.rebuild}" />
+			<arg value="/tv:${msbuild.tools}" />
+		</exec>
+	</target>
+</project>

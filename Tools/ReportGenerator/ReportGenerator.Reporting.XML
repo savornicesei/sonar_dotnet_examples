@@ -34,6 +34,16 @@
             The template for the coverage tooltip.
             </summary>
         </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.LineCoveragePngTemplate">
+            <summary>
+            The template for line coverage badge in PNG format.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.BranchCoveragePngTemplate">
+            <summary>
+            The template for branch coverage badge in PNG format.
+            </summary>
+        </member>
         <member name="P:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.ReportType">
             <summary>
             Gets the report type.
@@ -42,12 +52,12 @@
             The report type.
             </value>
         </member>
-        <member name="P:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.TargetDirectory">
+        <member name="P:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.ReportConfiguration">
             <summary>
-            Gets or sets the target directory where reports are stored.
+            Gets or sets the report configuration.
             </summary>
             <value>
-            The target directory.
+            The report configuration.
             </value>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
@@ -63,7 +73,7 @@
             </summary>
             <param name="summaryResult">The summary result.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.CreateBadge(Palmmedia.ReportGenerator.Parser.Analysis.SummaryResult,System.Boolean,System.Boolean)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.CreateSvgBadge(Palmmedia.ReportGenerator.Parser.Analysis.SummaryResult,System.Boolean,System.Boolean)">
             <summary>
             Renderes the SVG.
             </summary>
@@ -71,6 +81,87 @@
             <param name="includeLineCoverage">Indicates whether line coverage should be included.</param>
             <param name="includeBranchCoverage">Indicates whether branch coverage should be included.</param>
             <returns>The rendered SVG.</returns>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.BadgeReportBuilder.CreatePngBadge(Palmmedia.ReportGenerator.Parser.Analysis.SummaryResult,System.Boolean)">
+            <summary>
+            Renderes the PNG.
+            </summary>
+            <param name="summaryResult">Indicates whether </param>
+            <param name="lineCoverage">Indicates whether line coverage or branch coverage should be displayed.</param>
+            <returns>The rendered PNG.</returns>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus">
+            <summary>
+            Represents the status of a metric.
+            </summary>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus.#ctor(Palmmedia.ReportGenerator.Parser.Analysis.Metric,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus"/> class.
+            </summary>
+            <param name="metric">The metric.</param>
+            <param name="exceeded">Determines whether the metric's threshold is exceeded.</param>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus.Metric">
+            <summary>
+            Gets the metric.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus.Exceeded">
+            <summary>
+            Gets a value indicating whether the metric's threshold is exceeded.
+            </summary>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot">
+            <summary>
+            Represents a risk hotspot.
+            </summary>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot.#ctor(Palmmedia.ReportGenerator.Parser.Analysis.Assembly,Palmmedia.ReportGenerator.Parser.Analysis.Class,Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.MetricStatus})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot"/> class.
+            </summary>
+            <param name="assembly">The assembly.</param>
+            <param name="class">The class.</param>
+            <param name="methodMetric">The method metric.</param>
+            <param name="statusMetrics">The metric with status.</param>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot.Assembly">
+            <summary>
+            Gets the assembly.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot.Class">
+            <summary>
+            Gets the class.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot.MethodMetric">
+            <summary>
+            Gets the method metric.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot.StatusMetrics">
+            <summary>
+            Gets the metric with status.
+            </summary>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspotsAnalysis">
+            <summary>
+            Analyses the method metrics for risk hotspots based on exceeded thresholds.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspotsAnalysis.ThresholdsByMetricName">
+            <summary>
+            The thresholds of the various metrics.
+            </summary>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspotsAnalysis.DetectHotspotsByMetricName(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly})">
+            <summary>
+            Determines the risk hotspots in the code base.
+            </summary>
+            <param name="assemblies">The assemblies.</param>
+            <returns>The risk hotspots.</returns>
         </member>
         <member name="T:Palmmedia.ReportGenerator.Reporting.CsvSummaryReportBuilder">
             <summary>
@@ -85,12 +176,12 @@
             The report type.
             </value>
         </member>
-        <member name="P:Palmmedia.ReportGenerator.Reporting.CsvSummaryReportBuilder.TargetDirectory">
+        <member name="P:Palmmedia.ReportGenerator.Reporting.CsvSummaryReportBuilder.ReportConfiguration">
             <summary>
-            Gets or sets the target directory where reports are stored.
+            Gets or sets the report configuration.
             </summary>
             <value>
-            The target directory.
+            The report configuration.
             </value>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.CsvSummaryReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
@@ -105,6 +196,174 @@
             Creates the summary report.
             </summary>
             <param name="summaryResult">The summary result.</param>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.HtmlInlineCssAndJavaScriptReportBuilder">
+            <summary>
+            Creates report in HTML format.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.HtmlInlineCssAndJavaScriptReportBuilder.javaScriptContent">
+            <summary>
+            Contains report specific JavaScript content.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.HtmlInlineCssAndJavaScriptReportBuilder.ReportType">
+            <summary>
+            Gets the report type.
+            </summary>
+            <value>
+            The report format.
+            </value>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.HtmlInlineCssAndJavaScriptReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
+            <summary>
+            Creates a class report.
+            </summary>
+            <param name="class">The class.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.HtmlInlineCssAndJavaScriptReportBuilder.CreateSummaryReport(Palmmedia.ReportGenerator.Parser.Analysis.SummaryResult)">
+            <summary>
+            Creates the summary report.
+            </summary>
+            <param name="summaryResult">The summary result.</param>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder">
+            <summary>
+            Creates MHTML which is a container for the complete HTML report.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.htmlReportBuilder">
+            <summary>
+            The <see cref="T:Palmmedia.ReportGenerator.Reporting.HtmlReportBuilder"/>.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.reportConfiguration">
+            <summary>
+            The report configuration.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.htmlReportTargetDirectory">
+            <summary>
+            The temporary HTML report target directory.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.ReportType">
+            <summary>
+            Gets the report type.
+            </summary>
+            <value>
+            The report type.
+            </value>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.ReportConfiguration">
+            <summary>
+            Gets or sets the report configuration.
+            </summary>
+            <value>
+            The report configuration.
+            </value>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
+            <summary>
+            Creates a class report.
+            </summary>
+            <param name="class">The class.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.CreateSummaryReport(Palmmedia.ReportGenerator.Parser.Analysis.SummaryResult)">
+            <summary>
+            Creates the summary report.
+            </summary>
+            <param name="summaryResult">The summary result.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.WriteFile(System.IO.StreamWriter,System.String,System.String,System.String)">
+            <summary>
+            Writes a file to the given StreamWriter.
+            </summary>
+            <param name="writer">The writer.</param>
+            <param name="filePath">The file path.</param>
+            <param name="contentType">Type of the content.</param>
+            <param name="content">The content.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.AddFilePrefixForCssAndJavaScript(System.String)">
+            <summary>
+            Adds the 'file:///' prefix for CSS and java script links.
+            </summary>
+            <param name="content">The content.</param>
+            <returns>The processed content.</returns>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.CreateMhtmlFile">
+            <summary>
+            Creates the MHTML file.
+            </summary>
+        </member>
+        <member name="T:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration">
+            <summary>
+            Wraps another <see cref="T:Palmmedia.ReportGenerator.Reporting.IReportConfiguration"/> but makes it possible to override the target directory.
+            </summary>
+        </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.reportConfiguration">
+            <summary>
+            The wrapped <see cref="T:Palmmedia.ReportGenerator.Reporting.IReportConfiguration"/> instance.
+            </summary>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.#ctor(Palmmedia.ReportGenerator.Reporting.IReportConfiguration,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration"/> class.
+            </summary>
+            <param name="reportConfiguration">The wrapped <see cref="T:Palmmedia.ReportGenerator.Reporting.IReportConfiguration"/> instance.</param>
+            <param name="targetDirectory">The custom target directory.</param>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.TargetDirectory">
+            <summary>
+            Gets the target directory.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.HistoryDirectory">
+            <summary>
+            Gets the history directory.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.ReportTypes">
+            <summary>
+            Gets the type of the report.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.SourceDirectories">
+            <summary>
+            Gets the source directories.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.AssemblyFilters">
+            <summary>
+            Gets the assembly filters.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.ClassFilters">
+            <summary>
+            Gets the class filters.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.FileFilters">
+            <summary>
+            Gets the file filters.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.VerbosityLevel">
+            <summary>
+            Gets the verbosity level.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.OverallHistoricCoverages">
+            <summary>
+            Gets all historic coverage elements.
+            </summary>
+        </member>
+        <member name="P:Palmmedia.ReportGenerator.Reporting.MhtmlReportBuilder.HtmlReportBuilderReportConfiguration.Tag">
+            <summary>
+            Gets the custom tag (e.g. build number).
+            </summary>
         </member>
         <member name="T:Palmmedia.ReportGenerator.Reporting.HtmlChartReportBuilder">
             <summary>
@@ -126,15 +385,6 @@
             <param name="reportRenderer">The report renderer.</param>
             <param name="summaryResult">The summary result.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.HtmlChartReportBuilder.GetOverallHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Class})">
-            <summary>
-            Gets the overall historic coverages from all classes.
-            </summary>
-            <param name="classes">The classes.</param>
-            <returns>
-            The overall historic coverages from all classes.
-            </returns>
-        </member>
         <member name="T:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder">
             <summary>
             Creates HTML with chart component only (no reports for classes are generated).
@@ -148,12 +398,12 @@
             The report type.
             </value>
         </member>
-        <member name="P:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.TargetDirectory">
+        <member name="P:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.ReportConfiguration">
             <summary>
-            Gets or sets the target directory where reports are stored.
+            Gets or sets the report configuration.
             </summary>
             <value>
-            The target directory.
+            The report configuration.
             </value>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
@@ -169,13 +419,13 @@
             </summary>
             <param name="summaryResult">The summary result.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.GetOverallHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Class})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.GetOverallHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Gets the overall historic coverages from all classes.
+            Gets the overall historic coverages from all classes grouped by execution time.
             </summary>
-            <param name="classes">The classes.</param>
+            <param name="overallHistoricCoverages">All historic coverage elements.</param>
             <returns>
-            The overall historic coverages from all classes.
+            The overall historic coverages from all classes grouped by execution time.
             </returns>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.PngChartReportBuilder.FilterHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage},System.Int32)">
@@ -199,12 +449,12 @@
             The report type.
             </value>
         </member>
-        <member name="P:Palmmedia.ReportGenerator.Reporting.TextSummaryReportBuilder.TargetDirectory">
+        <member name="P:Palmmedia.ReportGenerator.Reporting.TextSummaryReportBuilder.ReportConfiguration">
             <summary>
-            Gets or sets the target directory where reports are stored.
+            Gets or sets the report configuration.
             </summary>
             <value>
-            The target directory.
+            The report configuration.
             </value>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.TextSummaryReportBuilder.CreateClassReport(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
@@ -396,6 +646,11 @@
             Indicates that only a summary report is created (no class reports).
             </summary>
         </member>
+        <member name="F:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.inlineCssAndJavaScript">
+            <summary>
+            Indicates that CSS and JavaScript is included into the HTML instead of seperate files.
+            </summary>
+        </member>
         <member name="F:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.javaScriptContent">
             <summary>
             Contains report specific JavaScript content.
@@ -406,11 +661,12 @@
             The report builder.
             </summary>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.#ctor(System.Boolean,System.Text.StringBuilder)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.#ctor(System.Boolean,System.Boolean,System.Text.StringBuilder)">
             <summary>
             Initializes a new instance of the <see cref="T:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer" /> class.
             </summary>
             <param name="onlySummary">if set to <c>true</c> only a summary report is created (no class reports).</param>
+            <param name="inlineCssAndJavaScript">if set to <c>true</c> CSS and JavaScript is included into the HTML instead of seperate files.</param>
             <param name="javaScriptContent">StringBuilder used to collect report specific JavaScript.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginSummaryReport(System.String,System.String,System.String)">
@@ -435,11 +691,13 @@
             </summary>
             <param name="text">The text.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.CodeElement}})">
             <summary>
             Adds the test methods to the report.
             </summary>
             <param name="testMethods">The test methods.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+            <param name="codeElementsByFileIndex">Code elements by file index.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.File(System.String)">
             <summary>
@@ -458,22 +716,25 @@
             Adds a table with two columns to the report.
             </summary>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginSummaryTable">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginSummaryTable(System.Boolean)">
             <summary>
             Adds a summary table to the report.
             </summary>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot},System.Boolean)">
             <summary>
             Adds custom summary elements to the report.
             </summary>
             <param name="assemblies">The assemblies.</param>
+            <param name="riskHotspots">The risk hotspots.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginMetricsTable(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginMetricsTable(Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric)">
             <summary>
             Adds a metrics table to the report.
             </summary>
-            <param name="headers">The headers.</param>
+            <param name="metric">The metric.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.BeginLineAnalysisTable(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -501,10 +762,11 @@
             </summary>
             <param name="metric">The metric.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.LineAnalysis(Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.LineAnalysis(System.Int32,Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
             <summary>
             Adds the coverage information of a single line of a file to the report.
             </summary>
+            <param name="fileIndex">The index of the file.</param>
             <param name="analysis">The line analysis.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.FinishTable">
@@ -514,21 +776,29 @@
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.Chart(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Charts the specified historic coverages.
+            Renderes a chart with the given historic coverages.
             </summary>
             <param name="historicCoverages">The historic coverages.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.RiskHotspots(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot})">
+            <summary>
+            Summary of risk hotspots
+            </summary>
+            <param name="riskHotspots">The risk hotspots.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly,System.Boolean)">
             <summary>
             Adds the coverage information of an assembly to the report.
             </summary>
             <param name="assembly">The assembly.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Boolean)">
             <summary>
             Adds the coverage information of a class to the report.
             </summary>
             <param name="class">The class.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.HtmlRenderer.AddFooter">
             <summary>
@@ -671,11 +941,13 @@
             </summary>
             <param name="text">The text.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.CodeElement}})">
             <summary>
             Adds the test methods to the report.
             </summary>
             <param name="testMethods">The test methods.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+            <param name="codeElementsByFileIndex">Code elements by file index.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.File(System.String)">
             <summary>
@@ -694,22 +966,25 @@
             Adds a table with two columns to the report.
             </summary>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.BeginSummaryTable">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.BeginSummaryTable(System.Boolean)">
             <summary>
             Adds a summary table to the report.
             </summary>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot},System.Boolean)">
             <summary>
             Adds custom summary elements to the report.
             </summary>
             <param name="assemblies">The assemblies.</param>
+            <param name="riskHotspots">The risk hotspots.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.BeginMetricsTable(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.BeginMetricsTable(Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric)">
             <summary>
             Adds a metrics table to the report.
             </summary>
-            <param name="headers">The headers.</param>
+            <param name="metric">The metric.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.BeginLineAnalysisTable(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -731,17 +1006,19 @@
             <param name="key">The text of the first column.</param>
             <param name="files">The files.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly,System.Boolean)">
             <summary>
             Adds the coverage information of an assembly to the report.
             </summary>
             <param name="assembly">The assembly.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Boolean)">
             <summary>
             Adds the coverage information of a class to the report.
             </summary>
             <param name="class">The class.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.MetricsRow(Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric)">
             <summary>
@@ -749,10 +1026,11 @@
             </summary>
             <param name="metric">The metric.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.LineAnalysis(Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.LineAnalysis(System.Int32,Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
             <summary>
             Adds the coverage information of a single line of a file to the report.
             </summary>
+            <param name="fileIndex">The index of the file.</param>
             <param name="analysis">The line analysis.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.FinishTable">
@@ -762,9 +1040,15 @@
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.Chart(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Charts the specified historic coverages.
+            Renderes a chart with the given historic coverages.
             </summary>
             <param name="historicCoverages">The historic coverages.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.RiskHotspots(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot})">
+            <summary>
+            Summary of risk hotspots
+            </summary>
+            <param name="riskHotspots">The risk hotspots.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer.AddFooter">
             <summary>
@@ -833,11 +1117,13 @@
             </summary>
             <param name="text">The text.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.CodeElement}})">
             <summary>
             Adds the test methods to the report.
             </summary>
             <param name="testMethods">The test methods.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+            <param name="codeElementsByFileIndex">Code elements by file index.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.File(System.String)">
             <summary>
@@ -856,22 +1142,25 @@
             Adds a table with two columns to the report.
             </summary>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.BeginSummaryTable">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.BeginSummaryTable(System.Boolean)">
             <summary>
             Adds a summary table to the report.
             </summary>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot},System.Boolean)">
             <summary>
             Adds custom summary elements to the report.
             </summary>
             <param name="assemblies">The assemblies.</param>
+            <param name="riskHotspots">The risk hotspots.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.BeginMetricsTable(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.BeginMetricsTable(Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric)">
             <summary>
             Adds a metrics table to the report.
             </summary>
-            <param name="headers">The headers.</param>
+            <param name="metric">The metric.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.BeginLineAnalysisTable(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -899,10 +1188,11 @@
             </summary>
             <param name="metric">The metric.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.LineAnalysis(Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.LineAnalysis(System.Int32,Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
             <summary>
             Adds the coverage information of a single line of a file to the report.
             </summary>
+            <param name="fileIndex">The index of the file.</param>
             <param name="analysis">The line analysis.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.FinishTable">
@@ -912,21 +1202,29 @@
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.Chart(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Charts the specified historic coverages.
+            Renderes a chart with the given historic coverages.
             </summary>
             <param name="historicCoverages">The historic coverages.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.RiskHotspots(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot})">
+            <summary>
+            Summary of risk hotspots
+            </summary>
+            <param name="riskHotspots">The risk hotspots.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly,System.Boolean)">
             <summary>
             Adds the coverage information of an assembly to the report.
             </summary>
             <param name="assembly">The assembly.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Boolean)">
             <summary>
             Adds the coverage information of a class to the report.
             </summary>
             <param name="class">The class.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.LatexRenderer.AddFooter">
             <summary>
@@ -1029,11 +1327,13 @@
             <param name="fileName">The file name.</param>
             <param name="title">The title.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.CustomSummary(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Assembly},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot},System.Boolean)">
             <summary>
             Adds custom summary elements to the report.
             </summary>
             <param name="assemblies">The assemblies.</param>
+            <param name="riskHotspots">The risk hotspots.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginClassReport(System.String,System.String,System.String)">
             <summary>
@@ -1049,11 +1349,13 @@
             </summary>
             <param name="text">The text.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.TestMethods(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.TestMethod},System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis},System.Collections.Generic.IDictionary{System.Int32,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.CodeElement}})">
             <summary>
             Adds the test methods to the report.
             </summary>
             <param name="testMethods">The test methods.</param>
+            <param name="fileAnalyses">The file analyses that correspond to the class.</param>
+            <param name="codeElementsByFileIndex">Code elements by file index.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.File(System.String)">
             <summary>
@@ -1072,16 +1374,17 @@
             Adds a table with two columns to the report.
             </summary>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginSummaryTable">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginSummaryTable(System.Boolean)">
             <summary>
             Adds a summary table to the report.
             </summary>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginMetricsTable(System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginMetricsTable(Palmmedia.ReportGenerator.Parser.Analysis.MethodMetric)">
             <summary>
             Adds a metrics table to the report.
             </summary>
-            <param name="headers">The headers.</param>
+            <param name="metric">The metric.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.BeginLineAnalysisTable(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
@@ -1109,10 +1412,11 @@
             </summary>
             <param name="metric">The metric.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.LineAnalysis(Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.LineAnalysis(System.Int32,Palmmedia.ReportGenerator.Parser.Analysis.LineAnalysis)">
             <summary>
             Adds the coverage information of a single line of a file to the report.
             </summary>
+            <param name="fileIndex">The index of the file.</param>
             <param name="analysis">The line analysis.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.FinishTable">
@@ -1122,21 +1426,29 @@
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.Chart(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Charts the specified historic coverages.
+            Renderes a chart with the given historic coverages.
             </summary>
             <param name="historicCoverages">The historic coverages.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.RiskHotspots(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Reporting.CodeAnalysis.RiskHotspot})">
+            <summary>
+            Summary of risk hotspots
+            </summary>
+            <param name="riskHotspots">The risk hotspots.</param>
+        </member>
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.SummaryAssembly(Palmmedia.ReportGenerator.Parser.Analysis.Assembly,System.Boolean)">
             <summary>
             Adds the coverage information of an assembly to the report.
             </summary>
             <param name="assembly">The assembly.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class)">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.SummaryClass(Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Boolean)">
             <summary>
             Adds the coverage information of a class to the report.
             </summary>
             <param name="class">The class.</param>
+            <param name="branchCoverageAvailable">if set to <c>true</c> branch coverage is available.</param>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.Rendering.XmlRenderer.AddFooter">
             <summary>
@@ -1181,12 +1493,12 @@
             The report type.
             </value>
         </member>
-        <member name="P:Palmmedia.ReportGenerator.Reporting.ReportBuilderBase.TargetDirectory">
+        <member name="P:Palmmedia.ReportGenerator.Reporting.ReportBuilderBase.ReportConfiguration">
             <summary>
-            Gets or sets the target directory where reports are stored.
+            Gets or sets the report configuration.
             </summary>
             <value>
-            The target directory.
+            The report configuration.
             </value>
         </member>
         <member name="M:Palmmedia.ReportGenerator.Reporting.ReportBuilderBase.CreateClassReport(Palmmedia.ReportGenerator.Reporting.Rendering.IReportRenderer,Palmmedia.ReportGenerator.Parser.Analysis.Class,System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.FileAnalysis})">
@@ -1217,13 +1529,13 @@
             </summary>
             <param name="summaryResult">The summary result.</param>
         </member>
-        <member name="M:Palmmedia.ReportGenerator.Reporting.ReportBuilderBase.GetOverallHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.Class})">
+        <member name="M:Palmmedia.ReportGenerator.Reporting.ReportBuilderBase.GetOverallHistoricCoverages(System.Collections.Generic.IEnumerable{Palmmedia.ReportGenerator.Parser.Analysis.HistoricCoverage})">
             <summary>
-            Gets the overall historic coverages from all classes.
+            Gets the overall historic coverages from all classes grouped by execution time.
             </summary>
-            <param name="classes">The classes.</param>
+            <param name="overallHistoricCoverages">All historic coverage elements.</param>
             <returns>
-            The overall historic coverages from all classes.
+            The overall historic coverages from all classes grouped by execution time.
             </returns>
         </member>
         <member name="T:Palmmedia.ReportGenerator.Reporting.HtmlReportBuilder">

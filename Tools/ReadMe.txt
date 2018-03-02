@@ -9,7 +9,7 @@ OpenCoverToCoberturaConverter - converts OpenCover reports to Cobertura reports
 
 Tools versions
 ===============
-Nunit - 3.2.1
+Nunit.Console - 3.8.0
 OpenCover - 4.6.519
-ReportGenerator - 2.4.5.0
+ReportGenerator - 3.1.2.0
 OpenCoverToCoberturaConverter - 0.2.4.
